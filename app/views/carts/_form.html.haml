@@ -1,0 +1,5 @@
+= form_for @cart do |f|
+  =error_messages_for @cart
+
+  .actions
+    = f.submit nil, class: 'btn btn-primary'

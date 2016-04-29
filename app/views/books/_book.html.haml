@@ -1,0 +1,11 @@
+=link_to book, class: 'list-group-item' do
+  .media
+    -if book.cover?
+      .media-left=image_tag book.cover.url(:thumb), alt: book.title, class: 'media-object'
+    .media-body
+      %h4.media-heading
+        =book.title
+      %i
+        =book.author
+      %h4.media-bottom
+        =number_to_currency(book.price)

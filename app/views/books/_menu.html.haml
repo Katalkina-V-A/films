@@ -1,0 +1,14 @@
+-if Book.edit_by?(@current_user)
+  .btn-toolbar
+    =link_to edit_book_path(@book), class: 'btn btn-primary' do
+      =fa_icon 'edit'
+      Редактировать
+    -if @book.can_destroy?
+      =link_to @book, data: {method: :delete, confirm: t('helpers.sure')}, class: 'btn btn-danger' do
+        =fa_icon 'trash'
+        Удалить
+-else
+  .btn-toolbar
+    =link_to books_path, class: 'btn btn-primary' do
+      =fa_icon 'shopping-cart'
+      Добавить в корзину
