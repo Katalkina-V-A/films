@@ -1,4 +1,6 @@
 class BooksController < ApplicationController
+  include CurrentCart
+  before_action :set_cart
   before_action :check_authentication, except: :index
   before_action :check_edit, except: [:index, :show]
   before_action :set_book, only: [:show, :edit, :update, :destroy]

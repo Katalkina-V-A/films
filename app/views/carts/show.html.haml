@@ -1,2 +1,13 @@
 .page-header
   %h1 Корзина
+%ul
+  - @cart.line_items.each do |item|
+    %li
+      = item.quantity
+      × #{item.book.title}
+      =number_to_currency(item.total_price)
+%p
+  ="Total price"
+  =number_to_currency(@cart.total_price)
+=button_to 'очистить корзину', @cart, method: :delete, data: {confirm: 'are you sure?'}
+=button_to 'Оформить заказ', new_order_path, method: :get

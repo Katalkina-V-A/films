@@ -1,7 +1,9 @@
 class CartsController < ApplicationController
-  before_action :check_authentication, except: :index
-  before_action :check_edit, except: [:index, :show]
+  # before_action :check_authentication, except: :index
+  # skip_before_action :check_authentication, only: [:create, :update, :destroy]
+  # before_action :check_edit, except: [:index, :show]
   before_action :set_cart, only: [:show, :edit, :update, :destroy]
+  rescue_from ActiveRecord::RecordNotFound, with: :invalid_cart
 
   # GET /carts
   # GET /carts.json
@@ -48,8 +50,11 @@ class CartsController < ApplicationController
   # DELETE /carts/1
   # DELETE /carts/1.json
   def destroy
-    if @cart.destroy
-      redirect_to carts_url, notice: 'Корзина удалена.'
+
+    if @cart.id == session[:cart_id]
+      @cart.destroy
+      session[:cart_id] = nil
+      redirect_to cbooks_url, notice: 'Корзина удалена.'
     else
       render_error('Удаление корзины невозможно.', url: @cart)
     end
@@ -58,10 +63,7 @@ class CartsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_cart
-      @cart = Cart.find(session[:cart_id])
-    rescue ActiveRecord::RecordNotFound
-      @cart = Cart.create
-      session[:cart_id] = @cart.id
+      @cart = Cart.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
@@ -71,5 +73,9 @@ class CartsController < ApplicationController
 
     def check_edit
       render_error unless Cart.edit_by?(@current_user)
+    end
+
+    def invalid_cart
+      redirect_to books_url, notice: 'invalid_cart'
     end
 end

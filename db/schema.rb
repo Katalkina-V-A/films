@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160427151317) do
+ActiveRecord::Schema.define(version: 20160429220118) do
 
   create_table "books", force: :cascade do |t|
     t.string   "title"
@@ -33,6 +33,11 @@ ActiveRecord::Schema.define(version: 20160427151317) do
   create_table "books_films", id: false, force: :cascade do |t|
     t.integer "film_id", null: false
     t.integer "book_id", null: false
+  end
+
+  create_table "carts", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "countries", force: :cascade do |t|
@@ -74,6 +79,17 @@ ActiveRecord::Schema.define(version: 20160427151317) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "line_items", force: :cascade do |t|
+    t.integer  "book_id"
+    t.integer  "cart_id"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.integer  "quantity",   default: 1
+  end
+
+  add_index "line_items", ["book_id"], name: "index_line_items_on_book_id"
+  add_index "line_items", ["cart_id"], name: "index_line_items_on_cart_id"
 
   create_table "orders", force: :cascade do |t|
     t.string   "name"

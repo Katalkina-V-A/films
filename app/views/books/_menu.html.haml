@@ -8,7 +8,8 @@
         =fa_icon 'trash'
         Удалить
 -else
-  .btn-toolbar
-    =link_to books_path, class: 'btn btn-primary' do
-      =fa_icon 'shopping-cart'
-      Добавить в корзину
+  -if @current_user!=nil
+    .btn-toolbar
+      =button_to line_items_path(book_id: @book), class: 'btn btn-primary' do
+        =fa_icon 'shopping-cart'
+        Добавить в корзину
