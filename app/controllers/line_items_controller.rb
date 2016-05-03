@@ -35,6 +35,7 @@ class LineItemsController < ApplicationController
     @line_item = @cart.add_book(book.id)
     if @line_item.save
       redirect_to @line_item.cart, notice: 'Книга добавлена в корзину.'
+      # redirect_to book, notice: 'Книга добавлена в корзину.'
     else
       render :new
     end

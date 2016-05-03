@@ -11,3 +11,19 @@
   .list-group
     =render @books
   =paginate @books
+  -# .row
+  -#   -@books.each do |book|
+  -#     .col-md-3
+  -#       .media
+  -#         -if book.cover?
+  -#           .media-center.media-top=image_tag book.cover.url(:thumb), alt: book.title, class: 'media-object'
+  -#         .media-body
+  -#           %h4.media-heading
+  -#             =book.title
+  -#           %i
+  -#             =book.author
+  -#           %h4.media-bottom
+  -#             =number_to_currency(book.price)
+  -#       =button_to 'Добавить в корзину', line_items_path(book_id: book), class: 'btn btn-primary'
+  -#       %br
+  -#       =button_to 'Подробнее', book, class: 'btn btn-primary'

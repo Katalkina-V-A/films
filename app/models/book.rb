@@ -1,5 +1,6 @@
 class Book < ActiveRecord::Base
   has_many :line_items
+  has_many :orders, through: :line_items
   before_destroy :ensure_not_referenced_by_any_line_item
   has_attached_file :cover, styles: {medium: "250x250>", thumb: "100x100>"}
 

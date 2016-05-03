@@ -1,0 +1,7 @@
+.btn-toolbar
+  =link_to @cart,  data: {method: :delete, confirm: t('helpers.sure')}, class: 'btn btn-danger' do
+    =fa_icon 'trash'
+    Очистить корзину
+  =link_to new_order_path, method: :get, class: 'btn btn-primary' do
+    =fa_icon 'edit'
+    Оформит заказ

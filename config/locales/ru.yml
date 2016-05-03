@@ -15,6 +15,7 @@ ru:
       person: Персона
       film: Фильм
       book: Книга
+      order: Заказ
     attributes:
       user:
         name: Имя
@@ -22,6 +23,12 @@ ru:
         password: Пароль
         password_confirmation: Пароль (повторно)
         role: Роль
+      order:
+        name: Имя
+        email: Адрес электронной почты
+        pay_type: Тип оплаты
+        delivery_type: Тип доставки
+        address: Адрес
       genre:
         name: Название
       country:

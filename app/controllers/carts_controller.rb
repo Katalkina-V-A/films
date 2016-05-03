@@ -54,7 +54,7 @@ class CartsController < ApplicationController
     if @cart.id == session[:cart_id]
       @cart.destroy
       session[:cart_id] = nil
-      redirect_to cbooks_url, notice: 'Корзина удалена.'
+      redirect_to books_url, notice: 'Корзина удалена.'
     else
       render_error('Удаление корзины невозможно.', url: @cart)
     end
@@ -76,6 +76,6 @@ class CartsController < ApplicationController
     end
 
     def invalid_cart
-      redirect_to books_url, notice: 'invalid_cart'
+      redirect_to books_url, notice: 'Неверный адрес'
     end
 end

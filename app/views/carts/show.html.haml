@@ -1,13 +1,24 @@
 .page-header
   %h1 Корзина
-%ul
-  - @cart.line_items.each do |item|
-    %li
-      = item.quantity
-      × #{item.book.title}
-      =number_to_currency(item.total_price)
-%p
-  ="Total price"
-  =number_to_currency(@cart.total_price)
-=button_to 'очистить корзину', @cart, method: :delete, data: {confirm: 'are you sure?'}
-=button_to 'Оформить заказ', new_order_path, method: :get
+-if @cart.line_items.blank?
+  .alert.alert-info Товаров в корзине нет
+-else
+  =render 'menu'
+  %h4
+    ="Общая стоимость: "
+    =number_to_currency(@cart.total_price)
+  .list-group
+    -@cart.line_items.each do |item|
+      =link_to item.book, class: 'list-group-item' do
+        .media
+          -if item.book.cover?
+            .media-left=image_tag item.book.cover.url(:thumb), alt: item.book.title, class: 'media-object'
+          .media-body
+            %h4.media-heading
+              =item.book.title
+            %i
+              =item.book.author
+            %h4.media-bottom
+              =item.quantity
+              шт × #{item.book.price} =
+              =number_to_currency(item.total_price)
