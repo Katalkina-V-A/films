@@ -6,27 +6,20 @@
     -if @book.cover?
       =image_tag @book.cover.url(:medium), alt: @book.title, class: 'img-responsive'
   .col-md-9
-    %dl
+    %h4
       -if @book.author
-        %dt=Book.human_attribute_name(:author)
-        %dd=@book.author
+        =@book.author
+    %i.small.text-muted
       -if @book.publishing
-        %dt=Book.human_attribute_name(:publishing)
-        %dd=@book.publishing
-      -if @book.author
-        %dt=Book.human_attribute_name(:year)
-        %dd=@book.year
-      -if @book.series
-        %dt=Book.human_attribute_name(:series)
-        %dd=@book.series
-      -if @book.amount
-        %dt=Book.human_attribute_name(:amount)
-        %dd=@book.amount
-      -if @book.price
-        %dt=Book.human_attribute_name(:price)
-        %dd=number_to_currency(@book.price)
+        =@book.publishing
+        -if @book.author
+          =@book.year
+    %h4
+      %b
+        -if @book.price
+          =number_to_currency(@book.price)
     %div=@book.description
-    
+
     -if @book.films.any?
       %h3=Book.human_attribute_name(:films)
       .list-group

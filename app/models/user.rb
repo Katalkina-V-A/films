@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   has_secure_password
-
+  has_one :cart
 ROLES = %w(Пользователь Администратор)
 
 validates :name, presence: true, length: {minimum: 2, maximum: 255}

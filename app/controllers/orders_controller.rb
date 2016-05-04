@@ -1,4 +1,6 @@
 class OrdersController < ApplicationController
+  before_action :check_authentication
+  before_action :check_edit, except: [:new, :create, :index]
   include CurrentCart
   before_action :set_cart, only: [:new, :create]
   before_action :set_order, only: [:show, :edit, :update, :destroy]
@@ -74,5 +76,9 @@ class OrdersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def order_params
       params.require(:order).permit(:name, :address, :email, :pay_type, :status, :delivery_type)
+    end
+
+    def check_edit
+      render_error unless Order.edit_by?(@current_user)
     end
 end
