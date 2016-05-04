@@ -1,24 +1,71 @@
-%p#notice= notice
+.page-header
+  %h1 Заказы
+-if Order.edit_by?(@current_user)
+  =render 'menu'
 
-%p
-  %b Name:
-  = @order.name
-%p
-  %b Address:
-  = @order.address
-%p
-  %b Email:
-  = @order.email
-%p
-  %b Pay type:
-  = @order.pay_type
-%p
-  %b Status:
-  = @order.status
-%p
-  %b Delivery type:
-  = @order.delivery_type
+-if @current_user!=nil
+  .media
+    .media-body
+      %h4.media-heading
+        =@order.name
+      %small.text-muted
+        =@order.email
+      .text-center
+        %small
+          -if @order.status == 0
+            Ожидается оплата
+          -if @order.status == 1
+            Заказ собирается
+          -if @order.status == 2
+            В пути
+          -if @order.status == 3
+            Вы можете забрать заказ
+          -if @order.status == 4
+            Заказ завершен
+          -if @order.status == 5
+            Заказ отменен
+        %h4
+          ="Общая стоимость: "
+          =number_to_currency(@order.total_price)
+  .list-group
+    -@order.line_items.each do |item|
+      =link_to item.book, class: 'list-group-item' do
+        .media
+          -if item.book.cover?
+            .media-left=image_tag item.book.cover.url(:thumb), alt: item.book.title, class: 'media-object'
+          .media-body
+            %h4.media-heading
+              =item.book.title
+            %i
+              =item.book.author
+            %h4.media-bottom
+              =item.quantity
+              шт × #{item.book.price} =
+              =number_to_currency(item.total_price)
 
-= link_to 'Edit', edit_order_path(@order)
-\|
-= link_to 'Back', orders_path
+
+
+-# %p#notice= notice
+-#
+-# %p
+-#   %b Name:
+-#   = @order.name
+-# %p
+-#   %b Address:
+-#   = @order.address
+-# %p
+-#   %b Email:
+-#   = @order.email
+-# %p
+-#   %b Pay type:
+-#   = @order.pay_type
+-# %p
+-#   %b Status:
+-#   = @order.status
+-# %p
+-#   %b Delivery type:
+-#   = @order.delivery_type
+-#
+-# = link_to 'Edit', edit_order_path(@order)
+-# \|
+-# = link_to 'Back', orders_path

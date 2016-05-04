@@ -1,11 +1,1 @@
-= form_for @line_item do |f|
-  =error_messages_for(@line_item)
 
-  .field
-    = f.label :book
-    = f.text_field :book
-  .field
-    = f.label :cart
-    = f.text_field :cart
-  .actions
-    = f.submit 'Save'

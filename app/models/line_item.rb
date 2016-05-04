@@ -6,4 +6,7 @@ class LineItem < ActiveRecord::Base
   def total_price
     book.price * quantity
   end
+  def self.edit_by?(u)
+    u.try(:admin?)
+  end
 end

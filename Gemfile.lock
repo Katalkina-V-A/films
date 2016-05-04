@@ -130,6 +130,7 @@ GEM
     rack (1.6.4)
     rack-test (0.6.3)
       rack (>= 1.0)
+    railroady (1.4.2)
     rails (4.2.6)
       actionmailer (= 4.2.6)
       actionpack (= 4.2.6)
@@ -219,6 +220,7 @@ DEPENDENCIES
   maskedinput-rails
   mechanize
   paperclip
+  railroady
   rails (= 4.2.6)
   rails-i18n
   ru_propisju

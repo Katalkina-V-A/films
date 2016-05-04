@@ -1,10 +1,6 @@
 class LineItemsController < ApplicationController
-
-  # skip_before_action :check_authentication, only: :create
   before_action :check_authentication
   before_action :check_edit, except: [:create]
-  include CurrentCart
-  before_action :set_cart, only: [:create]
   before_action :set_line_item, only: [:show, :edit, :update, :destroy]
 
   # GET /line_items
@@ -31,9 +27,12 @@ class LineItemsController < ApplicationController
   # POST /line_items.json
   def create
     book = Book.find(params[:book_id])
-    # @line_item = LineItem.new(line_item_params)
-    # @line_item = @cart.line_items.build(book: book)
-    @line_item = @current_cart.add_book(book.id)
+    if @current_cart.present?
+      @line_item = @current_cart.add_book(book.id)
+    else
+      @current_cart = Cart.new(user: @current_user)
+      @line_item = @current_cart.add_book(book.id)
+    end
     if @line_item.save
       redirect_to @line_item.cart, notice: 'Книга добавлена в корзину.'
       # redirect_to book, notice: 'Книга добавлена в корзину.'

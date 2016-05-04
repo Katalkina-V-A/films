@@ -29,6 +29,7 @@ ru:
         pay_type: Тип оплаты
         delivery_type: Тип доставки
         address: Адрес
+        status: Статус заказа
       genre:
         name: Название
       country:

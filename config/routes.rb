@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   post 'login' => 'sessions#create'
   get 'logout' => 'sessions#destroy', as: :logout
 
-  get 'cart' => "carts#snow", :as => "current_cart"
+  get 'cart' => "carts#show", as: :currentcart
   # Example resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
 

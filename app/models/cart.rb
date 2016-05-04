@@ -13,6 +13,14 @@ class Cart < ActiveRecord::Base
     current_item
   end
 
+  def self.edit_by?(u)
+    u.try(:admin?)
+  end
+
+  def self.edit_cart_by?(cart, current_cart)
+    cart == current_cart
+  end
+
   def total_price
     line_items.to_a.sum{|item| item.total_price}
   end

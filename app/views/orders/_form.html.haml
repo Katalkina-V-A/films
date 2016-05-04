@@ -5,11 +5,11 @@
     .col-md-4
       .form-group
         = f.label :name
-        = f.text_field :name, class: 'form-control'
+        = f.text_field :name, class: 'form-control', type: 'text', value: @current_user.name
     .col-md-4
       .form-group
         = f.label :email
-        = f.text_field :email, class: 'form-control'
+        = f.text_field :email, class: 'form-control', type: 'email', value: @current_user.email
   .row
     .col-md-4
       .form-group
