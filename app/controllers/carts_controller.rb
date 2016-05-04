@@ -1,6 +1,5 @@
 class CartsController < ApplicationController
   before_action :check_authentication
-  # skip_before_action :check_authentication, only: [:create, :update, :destroy]
   before_action :check_edit, except: [:destroy, :show]
 
   before_action :set_cart, only: [:show, :edit, :update, :destroy]
@@ -10,15 +9,29 @@ class CartsController < ApplicationController
   # GET /carts
   # GET /carts.json
   def index
-    @carts = Cart.all
+    if Cart.edit_by?(@current_user)
+      redirect_to orders_url
+      return
+    else
+      if @current_user!=nil
+        @carts = Cart.all
+      end
+    end
   end
 
   # GET /carts/1
   # GET /carts/1.json
   def show
-    if @cart.line_items.blank?
-      redirect_to books_url, notice: 'Корзина пуста.'
+    if Cart.edit_by?(@current_user)
+      redirect_to orders_url
       return
+    else
+      if @current_user!=nil
+        if @cart.line_items.blank?
+          redirect_to books_url, notice: 'Корзина пуста.'
+          return
+        end
+      end
     end
   end
 
@@ -79,7 +92,7 @@ class CartsController < ApplicationController
     end
 
     def invalid_cart
-      redirect_to books_url, notice: 'Корзина пуста.'
+      redirect_to orders_url
     end
 
     def check_edit_cart

@@ -2,16 +2,27 @@ class LineItemsController < ApplicationController
   before_action :check_authentication
   before_action :check_edit, except: [:create]
   before_action :set_line_item, only: [:show, :edit, :update, :destroy]
-
+  rescue_from ActiveRecord::RecordNotFound, with: :invalid_line_item
   # GET /line_items
   # GET /line_items.json
   def index
-    @line_items = LineItem.all
+    if LineItem.edit_by?(@current_user)
+      redirect_to orders_url
+      return
+    else
+      if @current_user!=nil
+        @line_items = LineItem.all
+      end
+    end
   end
 
   # GET /line_items/1
   # GET /line_items/1.json
   def show
+    if LineItem.edit_by?(@current_user)
+      redirect_to orders_url
+      return
+    end
   end
 
   # GET /line_items/new
@@ -21,6 +32,8 @@ class LineItemsController < ApplicationController
 
   # GET /line_items/1/edit
   def edit
+    redirect_to orders_url
+    return
   end
 
   # POST /line_items
@@ -71,7 +84,9 @@ class LineItemsController < ApplicationController
     def line_item_params
       params.require(:line_item).permit(:book_id)
     end
-
+    def invalid_line_item
+      redirect_to orders_url
+    end
     def check_edit
       render_error unless LineItem.edit_by?(@current_user)
     end
