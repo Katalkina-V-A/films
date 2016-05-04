@@ -1,7 +1,8 @@
 .page-header
   %h1 Заказы
 -if Order.edit_by?(@current_user)
-  =render 'menu'
+  -if @order.status != 4 && @order.status != 5
+    =render 'menu'
 
 -if @current_user!=nil
   .media
@@ -12,18 +13,7 @@
         =@order.email
       .text-center
         %small
-          -if @order.status == 0
-            Ожидается оплата
-          -if @order.status == 1
-            Заказ собирается
-          -if @order.status == 2
-            В пути
-          -if @order.status == 3
-            Вы можете забрать заказ
-          -if @order.status == 4
-            Заказ завершен
-          -if @order.status == 5
-            Заказ отменен
+          =Order::STATUSES[@order.status][0]
         %h4
           ="Общая стоимость: "
           =number_to_currency(@order.total_price)
@@ -42,30 +32,3 @@
               =item.quantity
               шт × #{item.book.price} =
               =number_to_currency(item.total_price)
-
-
-
--# %p#notice= notice
--#
--# %p
--#   %b Name:
--#   = @order.name
--# %p
--#   %b Address:
--#   = @order.address
--# %p
--#   %b Email:
--#   = @order.email
--# %p
--#   %b Pay type:
--#   = @order.pay_type
--# %p
--#   %b Status:
--#   = @order.status
--# %p
--#   %b Delivery type:
--#   = @order.delivery_type
--#
--# = link_to 'Edit', edit_order_path(@order)
--# \|
--# = link_to 'Back', orders_path

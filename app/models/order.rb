@@ -2,7 +2,7 @@ class Order < ActiveRecord::Base
   has_many :line_items, dependent: :destroy
   has_many :books, through: :line_items
   belongs_to :user
-  validates :name, :address, :pay_type, :delivery_type, presence: true
+  validates :name, :address, :pay_type, :delivery_type, :status, presence: true
   validates :email, presence: true,
             format: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
   validates :name, length: {minimum: 2, maximum: 255}
@@ -19,6 +19,11 @@ class Order < ActiveRecord::Base
   def self.edit_by?(u)
     u.try(:admin?)
   end
+
+  def self.edit_order_by?(o, u)
+    o == u.id || u.try(:admin?)
+  end
+
   def total_price
     line_items.to_a.sum{|item| item.total_price}
   end

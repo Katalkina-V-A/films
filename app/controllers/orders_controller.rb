@@ -2,7 +2,8 @@ class OrdersController < ApplicationController
   before_action :check_authentication
   before_action :check_edit, except: [:new, :create, :index, :show]
   before_action :set_order, only: [:show, :edit, :update, :destroy]
-
+  before_action :check_edit_order, except: [:index, :new, :create]
+  rescue_from ActiveRecord::RecordNotFound, with: :invalid_order
   # GET /orders
   # GET /orders.json
   def index
@@ -16,11 +17,17 @@ class OrdersController < ApplicationController
 
   # GET /orders/new
   def new
-    if @current_cart.line_items.empty?
-      redirect_to books_url, notice: "Корзина пуста, совершите покупку."
+    if Order.edit_by?(@current_user)
+      redirect_to orders_url
       return
+    else
+      if @current_user!=nil
+        if @current_cart.line_items.empty?
+          redirect_to books_url, notice: "Корзина пуста, совершите покупку."
+          return
+        end
+      end
     end
-
     @order = Order.new(user: @current_user)
   end
 
@@ -74,8 +81,14 @@ class OrdersController < ApplicationController
     def order_params
       params.require(:order).permit(:name, :address, :email, :pay_type, :status, :delivery_type, :user_id)
     end
-
+    def invalid_order
+      redirect_to orders_url
+    end
     def check_edit
       render_error unless Order.edit_by?(@current_user)
     end
+    def check_edit_order
+      render_error unless Order.edit_order_by?(@order.user_id, @current_user)
+    end
+
 end

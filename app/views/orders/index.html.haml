@@ -14,16 +14,16 @@
     -else
       .list-group
         -@current_user.orders.each do |o|
-          =link_to o, class: 'list-group-item' do
-            .media
-              .media-body
-                %h4.media-heading
-                  =o.name
-                %small.text-muted
-                  =o.email
-                .text-center
-                  %small.text-muted
-                    -if o.status == 0
-                      Проверка платежа
-                .text-right
-                  %strong=number_to_currency(o.total_price)
+          =render o
+          -# =link_to o, class: 'list-group-item' do
+          -#   .media
+          -#     .media-body
+          -#       %h4.media-heading
+          -#         =o.name
+          -#       %small.text-muted
+          -#         =o.email
+          -#       .text-center
+          -#         %small.text-muted
+          -#           =Order::STATUSES[0]
+          -#       .text-right
+          -#         %strong=number_to_currency(o.total_price)

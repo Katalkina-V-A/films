@@ -7,7 +7,6 @@
         =order.email
       .text-center
         %small.text-muted
-          -if order.status == 0
-            Проверка платежа
+          =Order::STATUSES[order.status][0]
       .text-right
         %strong=number_to_currency(order.total_price)
