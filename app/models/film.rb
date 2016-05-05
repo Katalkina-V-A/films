@@ -14,7 +14,7 @@ class Film < ActiveRecord::Base
   validates :length, numericality: {only_integer: true, greater_than: 0}, allow_blank: true
   validates :year, numericality: {only_integer: true, greater_than: 1885}, allow_blank: true
   validate :check_people
-  validate :check_books
+  # validate :check_books
   validates_attachment :cover, content_type: {content_type: /\Aimage\/.*\z/}
 
 
@@ -45,9 +45,9 @@ class Film < ActiveRecord::Base
     true
   end
 
-  def check_books
-    errors.add(:books, :blank) if books.blank?
-    true
-  end
+  # def check_books
+  #   errors.add(:books, :blank) if books.blank?
+  #   true
+  # end
 
 end
