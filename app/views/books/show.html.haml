@@ -4,7 +4,8 @@
 .row
   .col-md-3
     -if @book.cover?
-      =image_tag @book.cover.url(:medium), alt: @book.title, class: 'img-responsive'
+      %a{:href => @book.cover.url, target: '_blank'}
+        =image_tag @book.cover.url(:medium), alt: @book.title, class: 'img-responsive'
   .col-md-9
     %h4
       -if @book.author
